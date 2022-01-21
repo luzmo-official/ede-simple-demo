@@ -1,0 +1,27 @@
+{
+  "name": "cumul.io-integration",
+  "version": "1.0.0",
+  "description": "Cumul.io sample integration app",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js -e js,css,html,jpg,svg,png"
+  },
+  "dependencies": {
+    "@cumul.io/cumulio-dashboard": "1.0.12",
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "bootstrap": "^5.0.2",
+    "compression": "^1.7.3",
+    "cumulio": "1.1.0",
+    "dotenv": "10.0.0",
+    "ejs": "3.1.6",
+    "express": "^4.16.3",
+    "passport-local": "^1.0.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.6.1",
+    "eslint": "^7.30.0",
+    "livereload": "^0.9.3",
+    "nodemon": "^2.0.9"
+  }
+}

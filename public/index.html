@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Awesome SaaS Company</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles/main.css" rel="stylesheet">
+    <script type="module" src="@cumul.io/cumulio-dashboard/cumulio-dashboard.min.js"></script>
+    <script defer src="@fortawesome/fontawesome-free/js/solid.js"></script>
+    <script defer src="@fortawesome/fontawesome-free/js/fontawesome.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <div class="d-flex h-100">
+      <div class="d-flex flex-column h-100 w-100">
+        <div class="top-bar d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <img src="/assets/awesomesaas.svg" class="company-logo">
+            <span class="company-name">Awesome SaaS Company</span>
+          </div>
+          <div class="user-container">
+            <span class="user-name">Hi Robyn!</span>
+            <img class="user-picture" src="/assets/user.png">
+            <i class="fa fa-angle-down"></i>
+          </div>
+        </div>
+        <div class="d-flex content-container w-100">
+          <div class="sidebar d-flex flex-column justify-content-between">
+            <div>
+              <ul class="sidebar-nav" id="dashboard-menu">
+                <li id="home">
+                  <i class="fa fa-fw fa-home"></i><span>Home</span>
+                </li>
+              </ul>
+              <div class="sidebar-extra-actions">
+                <span class="title">Shortcuts</span>
+                <ul class="sidebar-nav mt-2">
+                  <li>
+                    <i class="fa fa-fw fa-list-ul"></i>
+                    <span>Tasks</span>
+                  </li>
+                  <li>
+                    <i class="fa fa-fw fa-puzzle-piece"></i>
+                    <span>Integrations</span>
+                  </li>
+                  <li>
+                    <i class="fa fa-fw fa-cog"></i>
+                    <span>Settings</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+              <div id="edit-mode-switcher" style="cursor: pointer;"></div>
+              <button class="btn btn-primary" style="margin-top: 8px;" id="toggle-edit-mode">To view mode</button>
+            </div>
+          </div>
+          <div class="main-container text-center" style="display: flex; flex-direction: column; align-items: flex-end;">
+            <div style="margin-top: 12px; width: 100%; flex-grow: 1;">
+              <cumulio-dashboard
+                loaderBackground="#f1f5f8"
+                loaderFontColor="#333"
+                loaderSpinnerColor="rgb(255, 83, 84)"
+                mainColor="rgb(255, 83, 84)"
+                accentColor="rgb(255, 83, 84)"
+                editMode="view">
+              </cumulio-dashboard>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/main.js"></script>
+  </body>
+</html>
