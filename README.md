@@ -1,8 +1,14 @@
-# Embed Helios Into a Simple webapp
+# Embed Helios Into a Simple webapp - With Authentication Layer via Auth0
 
-This demo repo uses an integration in your [Cumul.io](https://cumul.io) account to embed into a webapp that uses [Helios](https://cumul.io) TODO: Add helios link
+This demo repo uses an integration in your [Cumul.io](https://cumul.io) account to embed into a webapp that uses [Helios](https://cumul.io) [TODO]: Add helios link
 
 Helios is an embedded dashboard editor. This example repo allows you to see how you would set up Helios to be embedded in a similar web application. Here, you can choose one of your own Cumul.io integrations (We would recommend creating a new one to use for demo/trial purposes) and use it for your first Helios setup.
+
+On this branch we add an Auth0 layer to demonstrate how you would retrieve the role of the end user that has logged in. This would then be used to define which settings or within which constraints the user can interact with [Helios]() TODO.
+
+E.g. If the user is a `viewer` then they would only be able to view the dashboards in the integration you give them access to. If they are a `designer` or `owner` then they would have access to use Helios capabilities such as switching to `editFull` or `editLimited` modes.
+
+For more in depth information on these roles and what they mean, please visit the [TODO]: Add Academy article
 
 ## Instructions to Run the Application
 
