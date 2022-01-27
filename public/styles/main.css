@@ -154,14 +154,6 @@ body {
   color: var(--background-color);
 }
 
-#edit-mode-switcher {
-  transition: color 0.2s ease;
-  color: var(--font-color-dimmed);
-}
-#edit-mode-switcher:hover {
-  color: var(--font-color);
-}
-
 #edit-mode-picker {
   display: none;
   flex-direction: row;
