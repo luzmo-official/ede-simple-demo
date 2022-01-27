@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 // if you want to control icons per slug -> add options
-import {populateMenu, setEditButtons} from './ui.mjs';
+import {populateMenu, setModeButtons} from './ui.mjs';
 
 export const dashboardElement = document.querySelector('cumulio-dashboard');
 
 export let currentMode = 'view';
 
-export const setCurrentMode = (requestedEditMode) => {
+export const setMode = (requestedEditMode) => {
   if (!['view', 'editFull', 'editLimited'].includes(requestedEditMode)) return;
-  setEditButtons(requestedEditMode);
+  setModeButtons(requestedEditMode);
   if (currentMode !== requestedEditMode) dashboardElement.setEditMode(requestedEditMode);
   currentMode = requestedEditMode;
 };
@@ -27,5 +27,5 @@ fetch('/authorization')
       });
   })
   .then(() => {
-    setCurrentMode('view');
+    setMode('view');
   });

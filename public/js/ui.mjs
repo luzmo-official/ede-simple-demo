@@ -1,4 +1,4 @@
-import { dashboardElement, currentMode, setCurrentMode } from './main.mjs';
+import { dashboardElement, currentMode, setMode } from './main.mjs';
 
 const slugToIcon = {
   home: 'fa-home',
@@ -30,7 +30,7 @@ export function populateMenu(dashboards) {
   }
 }
 
-export function setEditButtons(requestedEditMode){
+export function setModeButtons(requestedEditMode){
   if (requestedEditMode === 'view') {
     document.getElementById('toggle-edit-mode').innerText = 'To Editor Mode';
     document.getElementById('edit-mode-picker').style.display = 'none';
@@ -50,15 +50,15 @@ export function setEditButtons(requestedEditMode){
 }
 
 document.getElementById('toggle-edit-mode').onclick = () => {
-  if (currentMode === 'view') setCurrentMode('editFull');
-  else setCurrentMode('view');
+  if (currentMode === 'view') setMode('editFull');
+  else setMode('view');
 };
 
 
 document.getElementById('toggle-edit-limited-mode').onclick = () => {
-  setCurrentMode('editLimited');
+  setMode('editLimited');
 };
 
 document.getElementById('toggle-edit-full-mode').onclick = () => {
-  setCurrentMode('editFull');
+  setMode('editFull');
 };
