@@ -8,9 +8,20 @@ Helios is an embedded dashboard editor. This example repo allows you to see how 
 
 ### Cumul.io API Key & Token and The Integration
 
-This app will embed a Cumul.io Integration of your choice. To do so go to the `.env` file at the root of the repository and replace the `CUMULIO_API_KEY`, `CUMULIO_API_TOKEN` and `INTEGRATION_ID` fields with your own.
+This app will embed a Cumul.io Integration of your choice. To do so create a `.env` file at the root of the repository and add the `CUMULIO_API_KEY`, `CUMULIO_API_TOKEN` and `INTEGRATION_ID` fields with your own, which you can find on your Cumul.io account.
+
+E.g:
+
+`CUMULIO_API_KEY=abcd...`
+
+`CUMULIO_API_TOKEN=abcd...`
+
+`INTEGRATION_ID=abcd...`
 
 If you need more help creating an integration in Cumul.io or how they work, you can check out some of these resources:
+
+- [How to create an integration](https://academy.cumul.io/article/8ti1ek5r)
+- [Associating dashboards with an integration](https://academy.cumul.io/article/6xfe4xh8)
 
 ### Run the Application
 

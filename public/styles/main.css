@@ -96,7 +96,7 @@ body {
   margin-top: 3.5rem;
 }
 .sidebar-extra-actions .title {
-  opacity: .75;
+  opacity: 0.75;
   font-size: 0.8125rem;
 }
 
@@ -124,7 +124,7 @@ body {
   transition: all 0.2s ease-in-out;
 }
 .btn.btn-primary:hover {
-  background: var(--primary-hover) ;
+  background: var(--primary-hover);
   border-color: var(--primary-hover);
   color: var(--background-color);
 }
@@ -160,4 +160,9 @@ body {
 }
 #edit-mode-switcher:hover {
   color: var(--font-color);
+}
+
+#edit-mode-picker {
+  display: none;
+  flex-direction: row;
 }
