@@ -20,6 +20,11 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+#gated-content {
+  height: 100%;
+  display: none !important;
+}
+
 /* Top bar styling */
 .top-bar {
   height: 5rem;
@@ -153,7 +158,16 @@ body {
   background-color: var(--primary);
   color: var(--background-color);
 }
+.log-out-button {
+  float: right;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  color: rgba(233, 97, 97, 0.8);
+}
 
+.log-out-button:hover {
+  color: rgb(15, 15, 15) !important;
+}
 #edit-mode-picker {
   display: none;
   flex-direction: row;
