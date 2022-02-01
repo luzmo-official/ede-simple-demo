@@ -31,6 +31,10 @@ export function populateMenu(dashboards) {
 }
 
 export function setModeButtons(requestedEditMode){
+  if(requestedEditMode === 'unauthorized'){
+    document.getElementById('toggle-edit-mode').innerText = 'Mode Change Unauthorized';
+    return;
+  }
   if (requestedEditMode === 'view') {
     document.getElementById('toggle-edit-mode').innerText = 'To Editor Mode';
     document.getElementById('edit-mode-picker').style.display = 'none';
@@ -62,3 +66,8 @@ document.getElementById('toggle-edit-limited-mode').onclick = () => {
 document.getElementById('toggle-edit-full-mode').onclick = () => {
   setMode('editFull');
 };
+
+export function setUserDetails(user){
+  document.getElementById('user-name').textContent = 'Hi ' + user['https://cumulio/name'];
+  document.getElementById('user-picture').src = '/assets/' + user['https://cumulio/firstName'].toLowerCase() + '.jpg';
+}

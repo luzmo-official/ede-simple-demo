@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 // if you want to control icons per slug -> add options
-import {populateMenu, setModeButtons} from './ui.mjs';
+import {populateMenu, setModeButtons, setUserDetails} from './ui.mjs';
 
 export const dashboardElement = document.querySelector('cumulio-dashboard');
 
@@ -8,9 +8,15 @@ export let currentMode = 'view';
 
 export const setMode = (requestedEditMode) => {
   if (!['view', 'editFull', 'editLimited'].includes(requestedEditMode)) return;
-  setModeButtons(requestedEditMode);
-  if (currentMode !== requestedEditMode) dashboardElement.setEditMode(requestedEditMode);
-  currentMode = requestedEditMode;
+  if (currentMode !== requestedEditMode){
+    dashboardElement.setEditMode(requestedEditMode).then(() => {
+      setModeButtons(requestedEditMode);
+      currentMode = requestedEditMode;
+    }).catch(e => {
+      console.log(e.msg);
+      setModeButtons('unauthorized');
+    });
+  } 
 };
 
 // Do a request to our backend (see server.js) to retrieve an SSO key and token.
@@ -38,6 +44,8 @@ const getDashboardAuthorizationToken = async () => {
 const initUI = async () => {
   const isAuthenticated = await auth0.isAuthenticated(); 
   if (isAuthenticated) {
+    const user = await auth0.getUser();
+    setUserDetails(user);
     document
       .getElementById('gated-content')
       .style.setProperty('display', 'flex', 'important');
