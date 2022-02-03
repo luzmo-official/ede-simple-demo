@@ -8,9 +8,15 @@ export let currentMode = 'view';
 
 export const setMode = (requestedEditMode) => {
   if (!['view', 'editFull', 'editLimited'].includes(requestedEditMode)) return;
-  setModeButtons(requestedEditMode);
-  if (currentMode !== requestedEditMode) dashboardElement.setEditMode(requestedEditMode);
-  currentMode = requestedEditMode;
+  if (currentMode !== requestedEditMode){
+    dashboardElement.setEditMode(requestedEditMode).then(() => {
+      setModeButtons(requestedEditMode);
+      currentMode = requestedEditMode;
+    }).catch(e => {
+      console.log(e.msg);
+      setModeButtons('unauthorized');
+    });
+  } 
 };
 
 // Do a request to our backend (see server.js) to retrieve an SSO key and token.
@@ -25,7 +31,4 @@ fetch('/authorization')
       .then(dashboards => {
         populateMenu(dashboards);
       });
-  })
-  .then(() => {
-    setMode('view');
   });

@@ -31,6 +31,10 @@ export function populateMenu(dashboards) {
 }
 
 export function setModeButtons(requestedEditMode){
+  if(requestedEditMode === 'unauthorized'){
+    document.getElementById('toggle-edit-mode').innerText = 'Mode Change Unauthorized';
+    return;
+  }
   if (requestedEditMode === 'view') {
     document.getElementById('toggle-edit-mode').innerText = 'To Editor Mode';
     document.getElementById('edit-mode-picker').style.display = 'none';
