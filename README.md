@@ -24,11 +24,39 @@ The role of the user is defined in the user's `app_metadata` in Auth0. Here, sim
 
 In a normal scenario, the `integration ID` that the user would have access to would probably also be defined here. But for the purposes of this demo as we define it in `.env` (see next section) it's unnecessary to add to/retrieve from Auth0.
 
-> Note: You have the option to skip the step of creating your own `Action` on Auth0, you can install the [Auth0 Cumul.io Integration](https://marketplace.auth0.com/integrations/cumulio-dashboards). In which case make sure you add all of the above fields into a `cumulio` onbject in `app_metadata`.
+> Note: You have the option to skip the step of creating your own `Action` on Auth0. Instead, you can install the [Auth0 Cumul.io Integration](https://marketplace.auth0.com/integrations/cumulio-dashboards). In which case make sure you add all of the above fields into a `cumulio` object in `app_metadata`.
 
 For more in depth information on these roles and what they mean, please visit the [TODO]: Add Academy article
 
 ## Instructions to Run the Application
+
+### For Auth0
+
+1. Create an `auth_config.json` file that contains:
+
+```
+{
+  "domain": "Your Domain From Auth0",
+  "clientId": "Your Client Id From Auth0",
+  "audience": "Your Audience From Auth0"
+}
+```
+
+2. Create an account [here](https://auth0.com/)
+
+3. In the Applications menu create a new Application and select Single Page Web Applications and in Settings:
+
+   - copy 'Domain' & 'Client ID' to the same attributes in the `auth_config.json` file
+
+   - set the parameters of:
+     > Allowed Callback URLs: `http://localhost:3000`
+     > Allowed Logout URLs: `http://localhost:3000`
+     > Allowed Web Origins: `http://localhost:3000`
+   - Save the changes
+
+   in Connections: deactive google-oauth2 (to hide social)
+
+4. In Applications -> APIs copy 'API audience' next to Auth0 Management API to the audience attribute in the `auth_config.json` file
 
 ### Cumul.io API Key & Token and The Integration
 
@@ -51,4 +79,4 @@ If you need more help creating an integration in Cumul.io or how they work, you 
 
 1. `npm install`
 2. `npm run start`
-3. Go to `localhost:4030` on your browser
+3. Go to `localhost:3000` on your browser
