@@ -2,7 +2,7 @@
 
 This demo repo uses an integration in your [Cumul.io](https://cumul.io) account to embed into a webapp that uses [EDE](https://developer.cumul.io/#embedded-dashboard-editor)
 
-Use this repository alongside the ['Using the Embedded Dashboard Editor' Tutorial](https://blog.cumul.io/2022/02/10/using-the-embedded-dashboard-editor-in-your-application/)
+Use this repository alongside the ['Using the Embedded Dashboard Editor in Your Application' Tutorial](https://blog.cumul.io/2022/02/10/using-the-embedded-dashboard-editor-in-your-application/)
 
 This example repo allows you to see how you would set up Embedded Dashboard Editor in a similar web application. Here, you can choose one of your own Cumul.io integrations (We would recommend creating a new one to use for demo/trial purposes) and use it for your first EDE setup.
 
