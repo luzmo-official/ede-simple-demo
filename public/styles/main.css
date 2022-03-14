@@ -22,7 +22,6 @@ body {
 
 #gated-content {
   height: 100%;
-  display: none !important;
 }
 
 /* Top bar styling */
@@ -158,14 +157,13 @@ body {
   background-color: var(--primary);
   color: var(--background-color);
 }
-.log-out-button {
-  float: right;
+span.log-out-button {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   color: rgba(233, 97, 97, 0.8);
 }
 
-.log-out-button:hover {
+span.log-out-button:hover {
   color: rgb(15, 15, 15) !important;
 }
 #edit-mode-picker {
