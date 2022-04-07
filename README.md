@@ -24,8 +24,6 @@ The role of the user is defined in the user's `app_metadata` in Auth0. Here, sim
 
 In a normal scenario, the `integration ID` that the user would have access to would probably also be defined here. But for the purposes of this demo as we define it in `.env` (see next section) it's unnecessary to add to/retrieve from Auth0.
 
-> Note: You have the option to skip the step of creating your own `Action` on Auth0. Instead, you can install the [Auth0 Cumul.io Integration](https://marketplace.auth0.com/integrations/cumulio-dashboards). In which case make sure you add all of the above fields into a `cumulio` object in `app_metadata`.
-
 For more in depth information on these roles and what they mean, please visit the [Academy Course on EDE](https://academy.cumul.io/course/5726aaa3-8845-4bb5-8ce7-46d95e499b45) and [Requesting SSO tokens](https://academy.cumul.io/article/9nzhjs8c)
 
 ## Instructions to Run the Application
@@ -57,6 +55,28 @@ For more in depth information on these roles and what they mean, please visit th
    in Connections: deactive google-oauth2 (to hide social)
 
 4. In Applications -> APIs copy 'API audience' next to Auth0 Management API to the audience attribute in the `auth_config.json` file
+5. In order for the metadata to be able to be extracted from the jwt tokens we need to add a rule.
+
+    - Go to Auth Pipeline -> Rules and create a rule with name 'Add metadata to token' and use the following function:
+
+      ```javascript
+      let namespace = "http://namespace.app/";
+      function (user, context, callback) {
+      user.user_metadata = user.user_metadata || {};
+      Object.keys(user.user_metadata).forEach((k) => {
+        context.idToken[namespace + k] = user.user_metadata[k];
+        context.accessToken[namespace + k] = user.user_metadata[k];
+      });
+      Object.keys(user.app_metadata).forEach((k) => {
+        context.idToken[namespace + k] = user.app_metadata[k];
+        context.accessToken[namespace + k] = user.app_metadata[k];
+      });
+      callback(null, user, context);
+      }
+      ```
+      > Note: You have the option to skip the step of creating your own `Rule` on Auth0. Instead, you can install the [Auth0 Cumul.io Integration](https://marketplace.auth0.com/integrations/cumulio-dashboards). In this case make sure you add all of the above fields into a `cumulio` object in `app_metadata`, and use `https://cumulio/` as namespace in the code and `auth_config.json` file (see below).
+
+    - Copy the namespace value used in the rule function above to the namespace property in the `auth_config.json` file. The namespace is required for Auth0 as an arbitrary identifier (see [here](https://auth0.com/docs/tokens/create-namespaced-custom-claims)).
 
 ### Cumul.io API Key & Token and The Integration
 
