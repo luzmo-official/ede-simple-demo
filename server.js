@@ -68,8 +68,7 @@ app.get('/authorization',checkJwt, (req, res) => {
     name: req.user[authNamespace + 'name'],
     username: req.user[authNamespace + 'username'],
     email: req.user[authNamespace + 'email'],
-    suborganization: req.user[authNamespace + 'department'],
-    feature_overrides: ['!flag_disable_helios']
+    suborganization: req.user[authNamespace + 'department']
   })
     .then(result => res.status(200).json(result))
     .catch(error =>{
