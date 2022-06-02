@@ -46,13 +46,12 @@ app.get('/authorization', (req, res) => {
     integration_id: process.env.INTEGRATION_ID,
     type: 'sso',
     expiry: '24 hours',
-    inactivity_interval: '24 hours',
+    inactivity_interval: '10 minutes',
     username: 'JohnDoe',
     name: 'John Doe',
     email: 'johndoe@cumul.io',
     suborganization: 'Sample Integration',
-    role: 'viewer',
-    feature_overrides: ['!flag_disable_helios']
+    role: 'designer'
   })
     .then(result => res.status(200).json(result))
     .catch(error => res.status(400).json(error));
