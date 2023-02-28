@@ -1,7 +1,7 @@
 require('dotenv').config();
 const livereload = require('livereload');
 const connectLiveReload = require('connect-livereload');
-const compression = require('compression'); 
+const compression = require('compression');
 const express = require('express');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
@@ -23,7 +23,9 @@ const checkJwt = jwt({
 
 const client = new Cumulio({
   api_key: process.env.CUMULIO_API_KEY,
-  api_token: process.env.CUMULIO_API_TOKEN
+  api_token: process.env.CUMULIO_API_TOKEN,
+  host: 'https://api.us.cumul.io',
+  app: 'https://app.us.cumul.io'
 });
 
 const liveReloadServer = livereload.createServer();
@@ -54,23 +56,39 @@ app.use('/@fortawesome', express.static(__dirname + '/node_modules/@fortawesome'
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap'));
 app.use(express.static(__dirname + '/public'));
 app.options('*', (req, res) => {
-  res.status(204);  
+  res.status(204);
 });
 
-app.get('/authorization',checkJwt, (req, res) => {
+function CreateUserProperties(req) {
   const authNamespace = 'https://cumulio/';
-  client.create('authorization', {
+  let email = req.user[authNamespace + 'email'];
+  let organization = req.user[authNamespace + 'organization'];
+  let role = req.user[authNamespace + 'role'];
+  let username = req.user[authNamespace + 'username'];
+  return {
     integration_id: process.env.INTEGRATION_ID,
     type: 'sso',
     expiry: '24 hours',
     inactivity_interval: '24 hours',
-    role: req.user[authNamespace + 'role'],
-    name: req.user[authNamespace + 'name'],
-    username: req.user[authNamespace + 'username'],
-    email: req.user[authNamespace + 'email'],
-    suborganization: req.user[authNamespace + 'department']
-  })
-    .then(result => res.status(200).json(result))
+    role: role,
+    name: email,
+    username: username,
+    email: email,
+    suborganization: organization,
+    metadata: {
+      organization: [organization],
+    },
+  };
+}
+
+app.get('/authorization',checkJwt, (req, res) => {
+  console.log('Properties: ' + JSON.stringify(CreateUserProperties(req)));
+  console.log('User: ' + JSON.stringify(req.user));
+  client.create('authorization', CreateUserProperties(req))
+    .then(result => {
+      res.status(200).json(result);
+      console.log('API Result: ' + JSON.stringify(result));
+    })
     .catch(error =>{
       console.log('API Error: ' + JSON.stringify(error));
     });

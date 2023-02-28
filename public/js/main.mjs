@@ -1,24 +1,8 @@
 /* eslint-disable no-undef */
 // if you want to control icons per slug -> add options
-import {populateMenu, setModeButtons, setUserDetails} from './ui.mjs';
+import {populateMenu, setUserDetails} from './ui.mjs';
 
 export const dashboardElement = document.querySelector('cumulio-dashboard');
-
-export let currentMode = 'view';
-
-export const setMode = (requestedEditMode) => {
-  if (!['view', 'editFull', 'editLimited'].includes(requestedEditMode)) return;
-  if (currentMode !== requestedEditMode){
-    dashboardElement.setEditMode(requestedEditMode).then(() => {
-      setModeButtons(requestedEditMode);
-      currentMode = requestedEditMode;
-    }).catch(e => {
-      console.log(e.msg);
-      setModeButtons('unauthorized');
-    });
-  } 
-};
-
 // Do a request to our backend (see server.js) to retrieve an SSO key and token.
 const getDashboardAuthorizationToken = async () => {
   // Get the platform access credentials from the current logged in user
@@ -36,13 +20,12 @@ const getDashboardAuthorizationToken = async () => {
   // retrieve the accessible dashboards from the Integration
   const dashboards = await dashboardElement.getAccessibleDashboards();
   populateMenu(dashboards);
-  setMode('view');
   return parsedResponse;
 
 };
 // loads the user interface
 const initUI = async () => {
-  const isAuthenticated = await auth0.isAuthenticated(); 
+  const isAuthenticated = await auth0.isAuthenticated();
   if (isAuthenticated) {
     const user = await auth0.getUser();
     setUserDetails(user);
@@ -50,6 +33,7 @@ const initUI = async () => {
       .getElementById('gated-content')
       .style.setProperty('display', 'flex', 'important');
     getDashboardAuthorizationToken();
+    document.getElementById('loader').setAttribute('hidden', true);
   } else {
     login();
   }

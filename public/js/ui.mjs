@@ -1,4 +1,4 @@
-import { dashboardElement, currentMode, setMode } from './main.mjs';
+import { dashboardElement } from './main.mjs';
 
 const slugToIcon = {
   home: 'fa-home',
@@ -38,7 +38,7 @@ export function setModeButtons(requestedEditMode){
   if (requestedEditMode === 'view') {
     document.getElementById('toggle-edit-mode').innerText = 'To Editor Mode';
     document.getElementById('edit-mode-picker').style.display = 'none';
-  } 
+  }
   else{
     document.getElementById('toggle-edit-mode').innerText = 'To Viewer Mode';
     document.getElementById('edit-mode-picker').style.display = 'flex';
@@ -50,24 +50,10 @@ export function setModeButtons(requestedEditMode){
       document.getElementById('toggle-edit-limited-mode').classList.add('active');
       document.getElementById('toggle-edit-full-mode').classList.remove('active');
     }
-  } 
+  }
 }
 
-document.getElementById('toggle-edit-mode').onclick = () => {
-  if (currentMode === 'view') setMode('editFull');
-  else setMode('view');
-};
-
-
-document.getElementById('toggle-edit-limited-mode').onclick = () => {
-  setMode('editLimited');
-};
-
-document.getElementById('toggle-edit-full-mode').onclick = () => {
-  setMode('editFull');
-};
-
 export function setUserDetails(user){
-  document.getElementById('user-name').textContent = 'Hi ' + user['https://cumulio/name'];
-  document.getElementById('user-picture').src = '/assets/' + user['https://cumulio/firstName'].toLowerCase() + '.jpg';
+  const authNamespace = 'https://cumulio/';
+  document.getElementById('user-name').textContent = user[authNamespace + 'organization'];
 }
