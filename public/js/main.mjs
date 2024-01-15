@@ -2,7 +2,7 @@
 // if you want to control icons per slug -> add options
 import {populateMenu, setModeButtons} from './ui.mjs';
 
-export const dashboardElement = document.querySelector('cumulio-dashboard');
+export const dashboardElement = document.querySelector('luzmo-dashboard');
 
 export let currentMode = 'view';
 

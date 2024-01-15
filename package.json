@@ -1,17 +1,17 @@
 {
-  "name": "cumul.io-integration",
+  "name": "luzmo-integration",
   "version": "1.0.0",
-  "description": "Cumul.io sample integration app",
+  "description": "Luzmo sample integration app",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js -e js,css,html,jpg,svg,png"
   },
   "dependencies": {
-    "@cumul.io/cumulio-dashboard": "3.0.0",
+    "@luzmo/embed": "5.0.2",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "bootstrap": "^5.0.2",
     "compression": "^1.7.3",
-    "cumulio": "1.1.0",
+    "@luzmo/nodejs-sdk": "1.2.1",
     "dotenv": "10.0.0",
     "ejs": "3.1.6",
     "express": "^4.16.3",

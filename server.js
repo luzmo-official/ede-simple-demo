@@ -3,11 +3,11 @@ const livereload = require('livereload');
 const connectLiveReload = require('connect-livereload');
 const compression = require('compression'); 
 const express = require('express');
-const Cumulio = require('cumulio');
+const Luzmo = require('@luzmo/nodejs-sdk');
 
-const client = new Cumulio({
-  api_key: process.env.CUMULIO_API_KEY,
-  api_token: process.env.CUMULIO_API_TOKEN
+const client = new Luzmo({
+  api_key: process.env.LUZMO_API_KEY,
+  api_token: process.env.LUZMO_API_TOKEN
 });
 
 const liveReloadServer = livereload.createServer();
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 app.set('views', __dirname + '/public');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.use('/@cumul.io', express.static(__dirname + '/node_modules/@cumul.io'));
+app.use('/@luzmo', express.static(__dirname + '/node_modules/@luzmo'));
 app.use('/@fortawesome', express.static(__dirname + '/node_modules/@fortawesome'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap'));
 app.use(express.static(__dirname + '/public'));
@@ -49,7 +49,7 @@ app.get('/authorization', (req, res) => {
     inactivity_interval: '10 minutes',
     username: 'JohnDoe',
     name: 'John Doe',
-    email: 'johndoe@cumul.io',
+    email: 'johndoe@luzmo.com',
     suborganization: 'Sample Integration',
     role: 'designer'
   })
