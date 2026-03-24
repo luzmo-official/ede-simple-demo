@@ -10,6 +10,7 @@ const FALLBACK_ICONS = [
 const HOME_ICON = '<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>';
 
 let currentMode: DashboardEditMode = 'view';
+let lastEditMode: DashboardEditMode = 'editFull';
 
 /** Creates an SVG icon element from an SVG inner path string. */
 function svgIcon(pathContent: string): string {
@@ -25,6 +26,9 @@ export function setMode(requestedEditMode: DashboardEditMode): void {
     .then(() => {
       setModeButtons(requestedEditMode);
       currentMode = requestedEditMode;
+      if (requestedEditMode !== 'view') {
+        lastEditMode = requestedEditMode;
+      }
     })
     .catch((e: unknown) => {
       const msg =
@@ -77,6 +81,24 @@ function selectDashboard(menu: HTMLElement, active: HTMLElement, id: string): vo
   for (const item of Array.from(menu.querySelectorAll('.sidebar__item'))) {
     item.classList.toggle('active', item === active);
   }
+
+  if (currentMode !== 'view') {
+    const modeToRestore = currentMode;
+    dashboardElement.addEventListener(
+      'load',
+      () => {
+        dashboardElement.setEditMode(modeToRestore).catch((e: unknown) => {
+          const msg =
+            e !== null && typeof e === 'object' && 'msg' in e
+              ? String((e as { msg?: unknown }).msg)
+              : String(e);
+          console.warn('[selectDashboard]', msg);
+          setModeButtons('unauthorized');
+        });
+      },
+      { once: true }
+    );
+  }
 }
 
 export function setModeButtons(
@@ -111,7 +133,7 @@ function wireModeControls(): void {
   if (!toggleEdit || !limitedBtn || !fullBtn) return;
 
   toggleEdit.addEventListener('click', () => {
-    setMode(currentMode === 'view' ? 'editFull' : 'view');
+    setMode(currentMode === 'view' ? lastEditMode : 'view');
   });
   limitedBtn.addEventListener('click', () => setMode('editLimited'));
   fullBtn.addEventListener('click', () => setMode('editFull'));
