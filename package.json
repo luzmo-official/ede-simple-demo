@@ -7,8 +7,8 @@
     "start": "nodemon server.js -e js,css,html,jpg,svg,png"
   },
   "dependencies": {
-    "@cumul.io/cumulio-dashboard": "3.0.0",
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "@luzmo/embed": "^6.11.0",
     "bootstrap": "^5.0.2",
     "compression": "^1.7.3",
     "cumulio": "1.1.0",

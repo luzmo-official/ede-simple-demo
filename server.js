@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 app.set('views', __dirname + '/public');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.use('/@cumul.io', express.static(__dirname + '/node_modules/@cumul.io'));
+app.use('/@luzmo', express.static(__dirname + '/node_modules/@luzmo'));
 app.use('/@fortawesome', express.static(__dirname + '/node_modules/@fortawesome'));
 app.use('/bootstrap', express.static(__dirname + '/node_modules/bootstrap'));
 app.use(express.static(__dirname + '/public'));
