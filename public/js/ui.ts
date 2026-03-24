@@ -1,14 +1,20 @@
 import type { AccessibleDashboard, DashboardEditMode } from './types';
 import { dashboardElement } from './dashboard';
 
-const slugToIcon: Record<string, string> = {
-  home: 'fa-home',
-  sample: 'fa-lightbulb',
-};
+const FALLBACK_ICONS = [
+  '<path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/>',
+  '<path d="M11 2v20c5.52 0 10-4.48 10-10S16.52 2 11 2zm2 18.93V12h4.97A8.01 8.01 0 0 1 13 20.93zM13 10V3.07A8.01 8.01 0 0 1 17.97 10H13z"/>',
+  '<path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>',
+] as const;
 
-const fallbackIcons = ['fa-chart-line', 'fa-chart-pie', 'fa-lightbulb'] as const;
+const HOME_ICON = '<path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>';
 
-export let currentMode: DashboardEditMode = 'view';
+let currentMode: DashboardEditMode = 'view';
+
+/** Creates an SVG icon element from an SVG inner path string. */
+function svgIcon(pathContent: string): string {
+  return `<svg class="sidebar__icon" viewBox="0 0 24 24" aria-hidden="true">${pathContent}</svg>`;
+}
 
 export function setMode(requestedEditMode: DashboardEditMode): void {
   if (!['view', 'editFull', 'editLimited'].includes(requestedEditMode)) return;
@@ -25,7 +31,7 @@ export function setMode(requestedEditMode: DashboardEditMode): void {
         e !== null && typeof e === 'object' && 'msg' in e
           ? String((e as { msg?: unknown }).msg)
           : String(e);
-      console.log(msg);
+      console.warn('[setMode]', msg);
       setModeButtons('unauthorized');
     });
 }
@@ -34,31 +40,42 @@ export function populateMenu(dashboards: AccessibleDashboard[]): void {
   const menu = document.getElementById('dashboard-menu');
   if (!menu) return;
 
-  if (dashboards.length > 0) {
-    const first = dashboards[0];
-    if (first) {
-      dashboardElement.dashboardId = first.id;
-    }
-    dashboards.forEach((dashboard, i) => {
-      const newOption = document.createElement('li');
-      if (i === 0) newOption.classList.toggle('active');
-      const localizedName = dashboard.name;
-      const iconClass =
-        slugToIcon[dashboard.slug ?? ''] ?? fallbackIcons[i % fallbackIcons.length];
-      newOption.innerHTML = `
-                <i class="fa fa-fw ${iconClass}"></i>
-                <span class="text-truncate">${localizedName ? localizedName : 'Dashboard -' + i}</span>
-              `;
-      newOption.onclick = () => {
-        dashboardElement.dashboardId = dashboard.id;
-        const options = Array.from(menu.querySelectorAll('li'));
-        for (const option of options) {
-          if (option.isSameNode(newOption)) option.classList.add('active');
-          else option.classList.remove('active');
-        }
-      };
-      menu.appendChild(newOption);
+  if (dashboards.length === 0) return;
+
+  const first = dashboards[0];
+  if (first) {
+    dashboardElement.dashboardId = first.id;
+  }
+
+  dashboards.forEach((dashboard, i) => {
+    const li = document.createElement('li');
+    li.className = `sidebar__item${i === 0 ? ' active' : ''}`;
+    li.tabIndex = 0;
+    li.setAttribute('role', 'menuitem');
+
+    const iconPath = i === 0
+      ? HOME_ICON
+      : FALLBACK_ICONS[i % FALLBACK_ICONS.length];
+    const name = dashboard.name ?? `Dashboard ${i + 1}`;
+
+    li.innerHTML = `${svgIcon(iconPath)}<span>${name}</span>`;
+
+    li.addEventListener('click', () => selectDashboard(menu, li, dashboard.id));
+    li.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectDashboard(menu, li, dashboard.id);
+      }
     });
+
+    menu.appendChild(li);
+  });
+}
+
+function selectDashboard(menu: HTMLElement, active: HTMLElement, id: string): void {
+  dashboardElement.dashboardId = id;
+  for (const item of Array.from(menu.querySelectorAll('.sidebar__item'))) {
+    item.classList.toggle('active', item === active);
   }
 }
 
@@ -72,22 +89,18 @@ export function setModeButtons(
   if (!toggleEdit || !picker || !limitedBtn || !fullBtn) return;
 
   if (requestedEditMode === 'unauthorized') {
-    toggleEdit.innerText = 'Mode Change Unauthorized';
+    toggleEdit.textContent = 'Mode Change Unauthorized';
     return;
   }
+
   if (requestedEditMode === 'view') {
-    toggleEdit.innerText = 'To Editor Mode';
-    picker.style.display = 'none';
+    toggleEdit.textContent = 'To Edit Mode';
+    picker.classList.remove('sidebar__mode-picker--visible');
   } else {
-    toggleEdit.innerText = 'To Viewer Mode';
-    picker.style.display = 'flex';
-    if (requestedEditMode === 'editFull') {
-      limitedBtn.classList.remove('active');
-      fullBtn.classList.add('active');
-    } else if (requestedEditMode === 'editLimited') {
-      limitedBtn.classList.add('active');
-      fullBtn.classList.remove('active');
-    }
+    toggleEdit.textContent = 'To View Mode';
+    picker.classList.add('sidebar__mode-picker--visible');
+    fullBtn.classList.toggle('active', requestedEditMode === 'editFull');
+    limitedBtn.classList.toggle('active', requestedEditMode === 'editLimited');
   }
 }
 
@@ -97,18 +110,11 @@ function wireModeControls(): void {
   const fullBtn = document.getElementById('toggle-edit-full-mode');
   if (!toggleEdit || !limitedBtn || !fullBtn) return;
 
-  toggleEdit.onclick = () => {
-    if (currentMode === 'view') setMode('editFull');
-    else setMode('view');
-  };
-
-  limitedBtn.onclick = () => {
-    setMode('editLimited');
-  };
-
-  fullBtn.onclick = () => {
-    setMode('editFull');
-  };
+  toggleEdit.addEventListener('click', () => {
+    setMode(currentMode === 'view' ? 'editFull' : 'view');
+  });
+  limitedBtn.addEventListener('click', () => setMode('editLimited'));
+  fullBtn.addEventListener('click', () => setMode('editFull'));
 }
 
 wireModeControls();

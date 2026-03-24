@@ -5,75 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Awesome SaaS Company</title>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
-    <link rel="icon" type="image/png" href="/assets/favicon.png">
-    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="/styles/main.css" rel="stylesheet">
-    <script type="module" src="@luzmo/embed/luzmo-embed.min.js"></script>
-    <script defer src="@fortawesome/fontawesome-free/js/solid.js"></script>
-    <script defer src="@fortawesome/fontawesome-free/js/fontawesome.js"></script>
-    <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/@luzmo/embed/luzmo-embed.min.js"></script>
   </head>
   <body>
-    <div class="d-flex h-100">
-      <div class="d-flex flex-column h-100 w-100">
-        <div class="top-bar d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <img src="/assets/awesomesaas.svg" class="company-logo">
-            <span class="company-name">Awesome SaaS Company</span>
-          </div>
-          <div class="user-container">
-            <span class="user-name">Hi John!</span>
-            <img class="user-picture" src="/assets/user.png">
-            <i class="fa fa-angle-down"></i>
-          </div>
+    <div class="layout">
+      <header class="header" role="banner">
+        <div class="header__brand">
+          <img src="/assets/awesomesaas.svg" class="header__logo" alt="Company logo">
+          <span class="header__title">Awesome SaaS Company</span>
         </div>
-        <div class="d-flex content-container w-100">
-          <div class="sidebar d-flex flex-column justify-content-between">
-            <div>
-              <ul class="sidebar-nav" id="dashboard-menu">
-                <li id="home">
-                  <i class="fa fa-fw fa-home"></i><span>Home</span>
-                </li>
-              </ul>
-              <div class="sidebar-extra-actions">
-                <span class="title">Shortcuts</span>
-                <ul class="sidebar-nav mt-2">
-                  <li>
-                    <i class="fa fa-fw fa-list-ul"></i>
-                    <span>Tasks</span>
-                  </li>
-                  <li>
-                    <i class="fa fa-fw fa-puzzle-piece"></i>
-                    <span>Integrations</span>
-                  </li>
-                  <li>
-                    <i class="fa fa-fw fa-cog"></i>
-                    <span>Settings</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div style="display: flex; flex-direction: column;">
-              <button class="btn btn-primary" style="margin-top: 8px;" id="toggle-edit-mode">To Edit Mode</button>
-            </div>
-            <div id="edit-mode-picker">
-              <button class="btn btn-secondary" style="margin-top: 8px;" id="toggle-edit-full-mode">Edit Full</button>
-              <button class="btn btn-secondary" style="margin-top: 8px;" id="toggle-edit-limited-mode">Edit Limited</button>
-            </div>
-          </div>
-          <div class="main-container text-center" style="display: flex; flex-direction: column; align-items: flex-end;">
-            <div style="margin-top: 12px; width: 100%; flex-grow: 1;">
-              <luzmo-embed-dashboard
-                loaderBackground="#f1f5f8"
-                loaderFontColor="#333"
-                loaderSpinnerColor="rgb(255, 83, 84)"
-                mainColor="rgb(255, 83, 84)"
-                accentColor="rgb(255, 83, 84)"
-                editMode="view">
-              </luzmo-embed-dashboard>
-            </div>
-          </div>
+        <div class="header__user">
+          <span class="header__greeting">Hi John!</span>
+          <div class="header__avatar" aria-label="User avatar">J</div>
         </div>
+      </header>
+
+      <div class="layout__body">
+        <nav class="sidebar" role="navigation" aria-label="Main navigation">
+          <ul class="sidebar__nav" id="dashboard-menu">
+            <li class="sidebar__item" id="home" tabindex="0" role="menuitem">
+              <svg class="sidebar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+              <span>Home</span>
+            </li>
+          </ul>
+
+          <div class="sidebar__section">
+            <span class="sidebar__heading">Shortcuts</span>
+            <ul class="sidebar__nav">
+              <li class="sidebar__item" tabindex="0" role="menuitem">
+                <svg class="sidebar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+                <span>Tasks</span>
+              </li>
+              <li class="sidebar__item" tabindex="0" role="menuitem">
+                <svg class="sidebar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11H19V7c0-1.1-.9-2-2-2h-4V3.5a2.5 2.5 0 0 0-5 0V5H4c-1.1 0-2 .9-2 2v3.8h1.5c1.4 0 2.5 1.1 2.5 2.5s-1.1 2.5-2.5 2.5H2V19c0 1.1.9 2 2 2h3.8v-1.5c0-1.4 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5V21H17c1.1 0 2-.9 2-2v-4h1.5a2.5 2.5 0 0 0 0-5z"/></svg>
+                <span>Integrations</span>
+              </li>
+              <li class="sidebar__item" tabindex="0" role="menuitem">
+                <svg class="sidebar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94a7.07 7.07 0 0 0 .06-.94c0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.04 7.04 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58a7.2 7.2 0 0 0 0 1.88l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.37 1.03.7 1.62.94l.36 2.54c.05.24.26.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>
+                <span>Settings</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sidebar__controls">
+            <button class="btn btn--primary" id="toggle-edit-mode" aria-label="Toggle edit mode">
+              To Edit Mode
+            </button>
+            <div class="sidebar__mode-picker" id="edit-mode-picker">
+              <button class="btn btn--secondary" id="toggle-edit-full-mode" aria-label="Edit full mode">Full</button>
+              <button class="btn btn--secondary" id="toggle-edit-limited-mode" aria-label="Edit limited mode">Limited</button>
+            </div>
+          </div>
+        </nav>
+
+        <main class="canvas" role="main">
+          <luzmo-embed-dashboard
+            loaderBackground="#f1f5f8"
+            loaderFontColor="#333"
+            loaderSpinnerColor="rgb(255, 83, 84)"
+            mainColor="rgb(255, 83, 84)"
+            accentColor="rgb(255, 83, 84)"
+            editMode="view">
+          </luzmo-embed-dashboard>
+        </main>
       </div>
     </div>
     <script type="module" src="/js/bundle.js"></script>

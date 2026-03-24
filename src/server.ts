@@ -1,11 +1,10 @@
 import path from 'path';
+
 import dotenv from 'dotenv';
-import livereload from 'livereload';
-import connectLiveReload from 'connect-livereload';
-import compression from 'compression';
-import express, { type Request, type Response, type NextFunction } from 'express';
-import ejs from 'ejs';
+import express from 'express';
 import Luzmo from '@luzmo/nodejs-sdk';
+
+import type { Request, Response } from 'express';
 import type {
   EmbedAuthorizationPayload,
   LuzmoApiErrorBody,
@@ -13,7 +12,7 @@ import type {
 
 dotenv.config();
 
-const projectRoot = path.join(__dirname, '..');
+const PROJECT_ROOT = path.join(__dirname, '..');
 
 const apiKey = process.env.LUZMO_API_KEY ?? process.env.CUMULIO_API_KEY;
 const apiToken = process.env.LUZMO_API_TOKEN ?? process.env.CUMULIO_API_TOKEN;
@@ -21,7 +20,7 @@ const collectionId = process.env.LUZMO_COLLECTION_ID;
 
 if (!apiKey || !apiToken) {
   console.warn(
-    '[warn] LUZMO_API_KEY / LUZMO_API_TOKEN (or CUMULIO_* fallbacks) should be set in .env'
+    '[warn] LUZMO_API_KEY / LUZMO_API_TOKEN must be set in .env'
   );
 }
 
@@ -31,49 +30,16 @@ const client = new Luzmo({
   host: process.env.LUZMO_API_HOST ?? 'https://api.luzmo.com',
 });
 
-const liveReloadServer = livereload.createServer();
-liveReloadServer.server.once('connection', () => {
-  setTimeout(() => {
-    liveReloadServer.refresh('/');
-  }, 100);
-});
-
 const app = express();
-app.set('json spaces', 2);
-app.set('x-powered-by', false);
-app.use(compression());
-app.use(connectLiveReload());
-app.use((_req: Request, res: Response, next: NextFunction) => {
-  res.setHeader('Content-Language', 'en');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Content-Language, Accept'
-  );
-  next();
-});
+app.disable('x-powered-by');
 
-app.set('views', path.join(projectRoot, 'public'));
-app.engine('html', ejs.renderFile);
-app.set('view engine', 'html');
 app.use(
   '/@luzmo',
-  express.static(path.join(projectRoot, 'node_modules', '@luzmo'))
+  express.static(path.join(PROJECT_ROOT, 'node_modules', '@luzmo'))
 );
-app.use(
-  '/@fortawesome',
-  express.static(path.join(projectRoot, 'node_modules', '@fortawesome'))
-);
-app.use(
-  '/bootstrap',
-  express.static(path.join(projectRoot, 'node_modules', 'bootstrap'))
-);
-app.use(express.static(path.join(projectRoot, 'public')));
-app.options('*', (_req: Request, res: Response) => {
-  res.status(204).end();
-});
+app.use(express.static(path.join(PROJECT_ROOT, 'public')));
 
+/** Returns an ISO timestamp 24 h from now. */
 function embedExpiryIso24h(): string {
   const d = new Date();
   d.setHours(d.getHours() + 24);
@@ -82,11 +48,11 @@ function embedExpiryIso24h(): string {
 
 app.get('/authorization', (_req: Request, res: Response) => {
   if (!collectionId) {
-    return res.status(500).json({
+    res.status(500).json({
       error: 'Missing LUZMO_COLLECTION_ID',
-      hint:
-        'Create a Collection in Luzmo, add your dashboards/datasets, and set LUZMO_COLLECTION_ID in .env',
+      hint: 'Create a Collection in Luzmo, add your dashboards/datasets, and set LUZMO_COLLECTION_ID in .env',
     });
+    return;
   }
 
   const payload: EmbedAuthorizationPayload = {
@@ -116,14 +82,12 @@ app.get('/authorization', (_req: Request, res: Response) => {
         error !== null && typeof error === 'object'
           ? (error as LuzmoApiErrorBody)
           : { message: String(error) };
+      console.error('[authorization] Luzmo API error', body);
       res.status(400).json(body);
     });
 });
 
-app.get('/', (_req: Request, res: Response) => {
-  res.render('index.html');
-});
-
-app.listen(3000, () => {
-  console.log('[OK] - App listening on port 3000');
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.warn(`[OK] App listening on http://localhost:${PORT}`);
 });
