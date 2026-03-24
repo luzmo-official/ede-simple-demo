@@ -9,9 +9,9 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@luzmo/embed": "^6.11.0",
+    "@luzmo/nodejs-sdk": "^2.1.1",
     "bootstrap": "^5.0.2",
     "compression": "^1.7.3",
-    "cumulio": "1.1.0",
     "dotenv": "10.0.0",
     "ejs": "3.1.6",
     "express": "^4.16.3",
