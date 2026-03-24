@@ -20,8 +20,10 @@ Legacy env names `CUMULIO_API_KEY` and `CUMULIO_API_TOKEN` are still read as fal
 ### Run
 
 1. `npm install`
-2. `npm run start`
+2. `npm run start` — compiles TypeScript (server + browser bundle) then runs the server
 3. Open `http://localhost:3000`
+
+For local development with auto-reload of the server and client bundle: `npm run dev`
 
 ### More help
 

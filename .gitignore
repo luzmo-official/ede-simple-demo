@@ -2,3 +2,5 @@ node_modules
 .env
 .vscode
 auth_config.json
+dist
+public/js/bundle.js

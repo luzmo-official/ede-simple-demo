@@ -13,10 +13,4 @@ module.exports = {
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
   },
-  overrides: [
-    {
-      files: ['**/*.mjs'],
-      parserOptions: { sourceType: 'module' },
-    },
-  ],
 };
