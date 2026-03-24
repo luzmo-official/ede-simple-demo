@@ -1,6 +1,6 @@
 # Embedded Dashboard Editor — simple demo
 
-Embeds Luzmo dashboards using the [Embedded Dashboard Editor](https://developer.luzmo.com/guide/dashboard-embedding--embedded-dashboard-editor.md) pattern: the backend issues a short-lived **Embed token** and the frontend passes the returned `id` and `token` to `<luzmo-embed-dashboard>`.
+Embeds Luzmo dashboards using the [Embedded Dashboard Editor](https://developer.luzmo.com/guide/dashboard-embedding--embedded-dashboard-editor) pattern: the backend issues a short-lived **Embed token** and the frontend passes the returned `id` and `token` to `<luzmo-embed-dashboard>`.
 
 ## Setup
 
@@ -20,8 +20,3 @@ For EU (default) you can omit `LUZMO_API_HOST`. For US tenants set `https://api.
 3. Open `http://localhost:3000`
 
 For local development with auto-reload: `npm run dev`
-
-### Links
-
-- [Generating an authorization token](https://developer.luzmo.com/guide/dashboard-embedding--generating-an-authorization-token.md)
-- [createAuthorization (embed)](https://developer.luzmo.com/api/createAuthorization.md)
